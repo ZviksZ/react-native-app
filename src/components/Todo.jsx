@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-export const Todo = ({ todo, onRemove }) => {
+export const Todo = ({ todo, onRemove, onOpen }) => {
    const longPressHandler = () => {
       onRemove(todo.id)
    }
@@ -11,7 +11,7 @@ export const Todo = ({ todo, onRemove }) => {
          activeOpacity={0.5}
          /*onLongPress={longPressHandler} */
          onLongPress={onRemove.bind(null, todo.id)}
-         onPress={() => console.log('Pressed', todo.id)}>
+         onPress={() => onOpen(todo.id)}>
          <View style={styles.todo}>
             <Text>{todo.title}</Text>
          </View>
