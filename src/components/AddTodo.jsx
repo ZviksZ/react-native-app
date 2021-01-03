@@ -1,6 +1,7 @@
 import React, {useState}                            from "react";
-import {View, StyleSheet, Button, TextInput, Alert} from "react-native";
+import {View, StyleSheet, TextInput, Alert, Keyboard} from "react-native";
 import {THEME}                                      from "../theme.js";
+import {AntDesign}                                  from '@expo/vector-icons'
 
 export const AddTodo = ({onSubmit}) => {
    const [title, setTitle] = useState('');
@@ -9,6 +10,7 @@ export const AddTodo = ({onSubmit}) => {
       if (title.trim()) {
          onSubmit(title)
          setTitle('')
+         Keyboard.dismiss()
       } else {
          Alert.alert('Todo can not be empty')
       }
@@ -23,7 +25,10 @@ export const AddTodo = ({onSubmit}) => {
             placeholder="Enter todo..."
             value={title}
             onChangeText={setTitle}/>
-         <Button style={styles.button} title="Добавить" onPress={addTodo}/>
+         <AntDesign.Button  onPress={addTodo} style={styles.button} name="pluscircleo">
+            Добавить
+         </AntDesign.Button>
+         {/*<Button style={styles.button} title="Добавить" onPress={addTodo}/>*/}
       </View>
    );
 };
@@ -35,7 +40,7 @@ const styles = StyleSheet.create({
       marginBottom: 15
    },
    input: {
-      width: "70%",
+      width: "60%",
       borderStyle: "solid",
       borderBottomWidth: 2,
       borderBottomColor: THEME.MAIN_COLOR
