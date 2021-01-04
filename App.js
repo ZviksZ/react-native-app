@@ -1,8 +1,9 @@
-import React, {useState}         from "react";
-import {TodoState}               from "./src/context/todo/TodoState.js";
-import {MainLayout}              from "./src/MainLayout.jsx";
-import * as Font                 from 'expo-font'
-import AppLoading                from 'expo-app-loading'
+import React, {useState} from "react";
+import {ScreenState}     from "./src/context/screen/ScreenState.js";
+import {TodoState}       from "./src/context/todo/TodoState.js";
+import {MainLayout}      from "./src/MainLayout.jsx";
+import * as Font         from 'expo-font'
+import AppLoading        from 'expo-app-loading'
 
 async function loadApplication() {
    return await Font.loadAsync({
@@ -10,8 +11,6 @@ async function loadApplication() {
       'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
    })
 }
-
-/*TODO - Видео №48*/
 
 export default function App() {
    const [isReady, setIsReady] = useState(false)
@@ -24,8 +23,10 @@ export default function App() {
    }
 
    return (
-      <TodoState>
-         <MainLayout/>
-      </TodoState>
+      <ScreenState>
+         <TodoState>
+            <MainLayout/>
+         </TodoState>
+      </ScreenState>
    )
 }
