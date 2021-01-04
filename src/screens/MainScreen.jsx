@@ -1,16 +1,22 @@
-import React, {useState, useEffect, useContext}        from 'react';
-import {FlatList, StyleSheet, View, Image, Dimensions} from 'react-native'
-import {AddTodo}                                       from "../components/AddTodo.jsx";
-import {Todo}                                          from "../components/Todo.jsx";
-import {ScreenContext}                                 from "../context/screen/screenContext.js";
-import {TodoContext}                                   from "../context/todo/todoContext.js";
-import {THEME}                                         from "../theme.js";
+import React, {useState, useEffect, useContext, useCallback} from 'react';
+import {FlatList, StyleSheet, View, Image, Dimensions}       from 'react-native'
+import {AddTodo}                                             from "../components/AddTodo.jsx";
+import {Todo}                                                from "../components/Todo.jsx";
+import {AppLoader}                                           from "../components/ui/AppLoader.jsx";
+import {ScreenContext}                                       from "../context/screen/screenContext.js";
+import {TodoContext}                                         from "../context/todo/todoContext.js";
+import {THEME}                                               from "../theme.js";
 
 export const MainScreen = () => {
    const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width - THEME.PADDING_HORIZONTAL * 2);
-   const {todos, addTodo, removeTodo} = useContext(TodoContext);
+   const {todos, addTodo, removeTodo, fetchTodos, loading, error} = useContext(TodoContext);
    const {changeScreen} = useContext(ScreenContext);
 
+   const loadTodos = useCallback(async () => await fetchTodos(), [fetchTodos])
+
+   useEffect(() => {
+      loadTodos()
+   }, [])
 
    useEffect(() => {
       const update = () => {
@@ -24,6 +30,10 @@ export const MainScreen = () => {
          Dimensions.removeEventListener('change', update)
       }
    }, [])
+
+   if (loading) {
+      return <AppLoader/>
+   }
 
 
    let content = (
