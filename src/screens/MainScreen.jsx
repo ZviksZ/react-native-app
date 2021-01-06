@@ -2,7 +2,9 @@ import React, {useState, useEffect, useContext, useCallback} from 'react';
 import {FlatList, StyleSheet, View, Image, Dimensions}       from 'react-native'
 import {AddTodo}                                             from "../components/AddTodo.jsx";
 import {Todo}                                                from "../components/Todo.jsx";
+import {AppButton}                                           from "../components/ui/AppButton.jsx";
 import {AppLoader}                                           from "../components/ui/AppLoader.jsx";
+import {AppText}                                             from "../components/ui/AppText.jsx";
 import {ScreenContext}                                       from "../context/screen/screenContext.js";
 import {TodoContext}                                         from "../context/todo/todoContext.js";
 import {THEME}                                               from "../theme.js";
@@ -35,9 +37,16 @@ export const MainScreen = () => {
       return <AppLoader/>
    }
 
+   if (error) {
+      return <View style={styles.center}>
+         <AppText style={styles.error}>{error}</AppText>
+         <AppButton onPress={loadTodos}>Повторить</AppButton>
+      </View>
+   }
+
 
    let content = (
-      <View style={{width: deviceWidth }}>
+      <View style={{width: deviceWidth}}>
          <FlatList
             data={todos}
             renderItem={({item}) => <Todo onOpen={changeScreen} onRemove={removeTodo} todo={item}/>}
@@ -73,5 +82,15 @@ const styles = StyleSheet.create({
       width: '100%',
       height: '100%',
       resizeMode: 'contain'
+   },
+   center: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+   },
+   error: {
+      fontSize: 20,
+      color: THEME.DANGER_COLOR,
+      marginBottom: 10
    }
 })
